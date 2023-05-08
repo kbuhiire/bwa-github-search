@@ -1,26 +1,30 @@
-import Button from "components/Button";
-import { FiMoon } from "react-icons/fi";
+import { FiMoon, FiSun } from "react-icons/fi";
+import {func, string} from 'prop-types'
 import { AiOutlineGithub } from "react-icons/ai";
-import { func, string } from 'prop-types'
-import Search from "components/Search";
-import { StyledHeader, HeaderWrapper, StyledLogo } from "./styled";
+import {useTranslation} from "react-i18next";
+
+import Button from "components/Button";
+import Search from "views/Search";
+import {StyledHeader, HeaderWrapper, StyledLogo} from "./styled";
 
 const icon = <FiMoon size={18} />;
-const GithubIcon = <AiOutlineGithub size={40} />;
+const sunIcon = <FiSun size={18} />
 
 const Header = ({ theme, toggleTheme}) => {
-
+    const { t } = useTranslation();
 
     return (
         <StyledHeader>
             <HeaderWrapper>
-                <Button onclick={() => {}} text={GithubIcon} />
+                <StyledLogo>
+                    <AiOutlineGithub size={40} />
+                </StyledLogo>
                 <Search />
                 <Button
-                    text={icon}
-                    altText="Dark Mode"
-                    className="header-btn"
-                    onclick={toggleTheme}
+                    icon={theme === 'dark' ? sunIcon: icon}
+                    aria-label={theme === 'dark' ? t('header.lightMode') : t('header.darkMode')}
+                    text={theme === 'dark' ? t('header.lightMode') : t('header.darkMode')}
+                    onClick={toggleTheme}
                 />
             </HeaderWrapper>
         </StyledHeader>
@@ -28,8 +32,8 @@ const Header = ({ theme, toggleTheme}) => {
 };
 
 Header.propTypes = {
-    theme: string.isRequired,
     toggleTheme: func.isRequired,
+    theme: string.isRequired
 }
 
 export default Header;

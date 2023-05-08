@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {breakPoints} from "../../constants";
 
 export const StyledHeader = styled.div`
   background-color:  ${({ theme }) => theme.background};
@@ -18,21 +19,25 @@ export const StyledHeader = styled.div`
 
 export const HeaderWrapper = styled.div`
   width: 94%;
-  max-width: 1440px;
+  //max-width: 1440px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (max-width: ${breakPoints[2]}px) {
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+    //justify-content: space-between;
+  }
 `
 
 export const StyledLogo = styled.button`
   padding: .6em;
-  color: ${({ theme }) => theme.text};
-  @media (max-width: 375px) {
-
-    h1 {
-      max-width: 117px;
-    }
-  }
+    background-color:  ${({ theme }) => theme.logoBtnBg};
+    color: ${({ theme }) => theme.text};
+    border: none;
+    border-radius: 0.25rem;
 `

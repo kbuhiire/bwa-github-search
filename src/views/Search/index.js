@@ -1,20 +1,33 @@
 import {useEffect, useRef, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import RadioField from "components/RadioField";
 import {fetchUsers} from "redux/user";
-import {StyledRadioGroupContainer, StyledRadioGroupLabel, StyledSearchContainer, StyledSearchInput} from "./styled";
-import {searchTerms} from "../../constants";
 import {useNavigate, useParams} from "react-router-dom";
-import {useQueryParam} from "customHooks/useQueryParam";
+import { useTranslation } from "react-i18next";
+import { HiOutlineSearch } from "react-icons/hi";
 
+import RadioField from "components/RadioField";
+import {useQueryParam} from "customHooks/useQueryParam";
+import Button from "components/Button";
+import {
+    StyledRadioGroupContainer,
+    StyledRadioGroupLabel,
+    StyledSearchContainer,
+    StyledSearchInput,
+    StyledSearchInputContainer
+} from "./styled";
+import {searchTerms} from "../../constants";
+
+
+const icon = <HiOutlineSearch size={18} />;
 const Search = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate()
     const params = useParams()
     const pageNumber = useQueryParam()
 
     const { perPage, page } = useSelector((state) => state.user);
     const dispatch = useDispatch();
-    const [searchTerm, setSearchTerm] = useState(params.searchType)
+    const [searchTerm, setSearchTerm] = useState(params.searchTerm || 'users')
 
     const searchTextRef = useRef(null)
     const handleSelect = (value) => {
@@ -22,9 +35,8 @@ const Search = () => {
     }
 
     useEffect(() => {
-        console.log('It is running', params)
-        if (params.searchType !== '' && params.searchText !== '') {
-            dispatch(fetchUsers({searchTerm: params.searchType, searchText: params.searchText, perPage, page: pageNumber}))
+        if (Object.keys(params).length > 0 && params.searchTerm !== '' && params.searchText !== '') {
+            dispatch(fetchUsers({searchTerm: params.searchTerm, searchText: params.searchText, perPage, page: pageNumber}))
         }
     }, [])
 
@@ -43,13 +55,13 @@ const Search = () => {
         <form onSubmit={search}>
             <StyledSearchContainer>
                 <StyledRadioGroupContainer>
-                    <StyledRadioGroupLabel>Select Groups or Users</StyledRadioGroupLabel>
+                    <StyledRadioGroupLabel>{t('header.radioGroup.groupLabel')}</StyledRadioGroupLabel>
                     <RadioField
                         data-testid='users-radio-button'
                         type='radio'
                         name='searchTerm'
                         value={users.id}
-                        label={users.label}
+                        label={t('header.radioGroup.userLabel')}
                         checked={searchTerm === 'users'}
                         onSelect={() => handleSelect('users')}
                     />
@@ -58,26 +70,28 @@ const Search = () => {
                         type='radio'
                         name='searchTerm'
                         value={orgs.id}
-                        label={orgs.label}
+                        label={t('header.radioGroup.orgLabel')}
                         checked={searchTerm === 'orgs'}
                         onSelect={() => handleSelect('orgs')}
                     />
                 </StyledRadioGroupContainer>
-
-                <label htmlFor="search-form">
-                    <StyledSearchInput
-                        type="search"
-                        data-testid="search-input"
-                        name="search-form"
-                        id="search-form"
-                        defaultValue={params.searchText}
-                        className="search-input"
-                        placeholder="Search Github Users or Groups"
-                        ref={searchTextRef}
-                    />
-                </label>
+                <StyledSearchInputContainer>
+                    <label htmlFor="search-form">
+                        <StyledSearchInput
+                            type="search"
+                            data-testid="search-input"
+                            name="search-form"
+                            id="search-form"
+                            aria-label={t('header.search.inputText')}
+                            defaultValue={params.searchText}
+                            className="search-input"
+                            placeholder={t('header.search.inputText')}
+                            ref={searchTextRef}
+                        />
+                    </label>
+                    <Button aria-label={t('header.search.searchBtn')} onClick={search} icon={icon} text={t('header.search.searchBtn')} />
+                </StyledSearchInputContainer>
             </StyledSearchContainer>
-            <div className="marginBtm"></div>
         </form>
     );
 };

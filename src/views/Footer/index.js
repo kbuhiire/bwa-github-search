@@ -1,13 +1,14 @@
-import Pagination from "react-responsive-pagination";
+import ResponsivePagination from "react-responsive-pagination";
 import { useDispatch, useSelector } from "react-redux";
+import {useNavigate} from "react-router-dom";
+
 import {
     setUsersPerPage,
     setPaginationPage, fetchUsers,
 } from "redux/user";
 import {StyledFooter, StyledPaginationContainer, StyledSelect } from "./styled";
-import {useNavigate} from "react-router-dom";
 
-const Footer = () => {
+export const Footer = () => {
     const {
         users: { total_count },
         perPage,
@@ -20,7 +21,6 @@ const Footer = () => {
 
     const onPageChange = (pageNo) => {
         navigate({
-            // pathname: `${searchTerm}/${searchText}`,
             search: `?pageNumber=${pageNo}`
         })
         dispatch(setPaginationPage({ page: pageNo }));
@@ -44,7 +44,7 @@ const Footer = () => {
     return (
         <StyledFooter>
             <StyledPaginationContainer>
-                <Pagination
+                <ResponsivePagination
                     total={Math.ceil(total_count / perPage) || 1}
                     current={page}
                     onPageChange={(page) => onPageChange(page)}
