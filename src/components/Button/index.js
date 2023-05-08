@@ -1,15 +1,20 @@
-const Button = ({text, altText, className, onclick }) => {
+import {func, object, string} from "prop-types";
+
+import {StyledBtn, StyledBtnText} from "./styled";
+
+const Button = ({icon, text, onClick }) => {
 
     return (
-        <button className={className} onClick={onclick}>
-            {text} <span className="not-mobile">{altText}</span>
-        </button>
+        <StyledBtn onClick={onClick}>
+            {icon} <StyledBtnText >{text}</StyledBtnText>
+        </StyledBtn>
     )
 }
 
-Button.defaultProps = {
-    text: 'button',
-    color: 'transparent',
+Button.propTypes = {
+    icon: object.isRequired,
+    text: string.isRequired,
+    onClick: func.isRequired
 }
 
 export default Button

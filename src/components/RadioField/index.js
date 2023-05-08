@@ -1,32 +1,30 @@
 import React from "react";
 import { StyledSection, StyledRadioLabel, StyledLabel } from './styled'
-import {string, func, bool, oneOfType} from 'prop-types'
+import {string, func, bool, oneOfType, oneOf} from 'prop-types'
 
-const radio = 'radio'
-
-const RadioGroup = ({
+const RadioField = ({
                        type,
                        name,
+                        direction,
+                        checked,
                        value,
                        label,
-                       onChange,
-                       direction,
-                       checked,
+                       onSelect,
                        placeholder,
                        ...rest
                    }) => {
     return(
         <StyledSection direction={direction}>
             {
-                type === radio ?
+                type === 'radio' ?
                     <StyledRadioLabel>
                         <input
                             aria-label={label}
                             tabIndex="0"
-                            type={radio}
-                            onChange={onChange}
+                            type={'radio'}
                             name={name}
                             value={value}
+                            onChange={onSelect}
                             checked={checked}
                             {...rest}
                         />{label}
@@ -39,8 +37,8 @@ const RadioGroup = ({
                             aria-label={label || ''}
                             tabIndex="0"
                             name={name}
-                            onChange={onChange}
                             placeholder={placeholder}
+                            onChange={onSelect}
                             value={value}
                             {...rest}
                         />
@@ -50,24 +48,21 @@ const RadioGroup = ({
     )
 }
 
-RadioGroup.propTypes = {
+RadioField.propTypes = {
     type: string.isRequired,
     name: string.isRequired,
-    value: oneOfType([
-        string,
-        bool,
-    ]).isRequired,
-    onChange: func.isRequired,
     direction: oneOf(['row', 'column']),
-    label: string,
     checked: bool,
+    value: oneOfType([bool, string]).isRequired,
+    onSelect: func.isRequired,
     placeholder: string,
+    label: string,
 }
 
-RadioGroup.defaultProps = {
+RadioField.defaultProps = {
+    checked: false,
     label: '',
     placeholder: '',
-    checked: false
 }
 
-export default RadioGroup
+export default RadioField
