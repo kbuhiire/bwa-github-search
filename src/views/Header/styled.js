@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledHeader = styled.div`
-  background-color:  hsl(0, 0%, 100%);
+  background-color:  ${({ theme }) => theme.background};
   padding: 1em .2em;
   border-bottom: 1px solid rgba(0,0,0,.1);
   color: hsl(200, 15%, 8%);
@@ -24,4 +24,15 @@ export const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`
+
+export const StyledLogo = styled.button`
+  padding: .6em;
+  color: ${({ theme }) => theme.text};
+  @media (max-width: 375px) {
+
+    h1 {
+      max-width: 117px;
+    }
+  }
 `

@@ -2,36 +2,42 @@ import Pagination from "react-responsive-pagination";
 import { useDispatch, useSelector } from "react-redux";
 import {
     setUsersPerPage,
-    setPaginationPage,
+    setPaginationPage, fetchUsers,
 } from "redux/user";
 import {StyledFooter, StyledPaginationContainer, StyledSelect } from "./styled";
-// import { fetchUsers } from "utils";
+import {useNavigate} from "react-router-dom";
 
 const Footer = () => {
     const {
         users: { total_count },
-        users_per_page,
+        perPage,
         page,
-        search_name,
+        searchTerm,
+        searchText
     } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
-    const onPageChange = (page_no) => {
-        dispatch(setPaginationPage({ page: page_no }));
-        if (search_name) {
-            // fetchUsers(dispatch, search_name, users_per_page, page_no);
+    const onPageChange = (pageNo) => {
+        navigate({
+            // pathname: `${searchTerm}/${searchText}`,
+            search: `?pageNumber=${pageNo}`
+        })
+        dispatch(setPaginationPage({ page: pageNo }));
+        if (searchText) {
+            dispatch(fetchUsers({searchTerm, searchText, perPage, page: pageNo}))
         }
     };
 
     const onPageNumberSelect = (e) => {
-        const per_page = parseInt(e.target.value, 10);
+        const perPage = parseInt(e.target.value, 10);
         dispatch(
             setUsersPerPage({
-                users_per_page: per_page,
+                perPage
             })
         );
-        if (search_name) {
-            // fetchUsers(dispatch, search_name, per_page, page);
+        if (searchText) {
+            dispatch(fetchUsers({searchText, searchTerm, perPage, page}));
         }
     };
 
@@ -39,7 +45,7 @@ const Footer = () => {
         <StyledFooter>
             <StyledPaginationContainer>
                 <Pagination
-                    total={Math.ceil(total_count / users_per_page) || 1}
+                    total={Math.ceil(total_count / perPage) || 1}
                     current={page}
                     onPageChange={(page) => onPageChange(page)}
                     maxWidth={20}
@@ -47,6 +53,7 @@ const Footer = () => {
                     <StyledSelect
                         onChange={(e) => onPageNumberSelect(e)}
                         aria-label="Select Users Per Page"
+                        defaultValue={perPage}
                     >
                         <option value="5">5</option>
                         <option value="10">10</option>
