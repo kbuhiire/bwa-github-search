@@ -1,0 +1,38 @@
+{
+  "header": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "radioGroup": {
+      "groupLabel": "Select to Search",
+      "orgLabel": "Organizations",
+      "userLabel": "Users"
+    },
+    "search": {
+      "inputText": "Search Github Users or Organisations",
+      "searchBtn": "Search"
+    }
+  },
+  "home": {
+    "noData": "No {{USER_OR_ORG}} found",
+    "title": "Welcome to the Front-End Case Study Home Page",
+    "loader": {
+      "title": "Fetching {{USER_OR_ORG}}"
+    }
+  },
+  "detail": {
+    "backBtn": "Back",
+    "biography": "Biography",
+    "followers": "Followers",
+    "following": "Following",
+    "loader": {
+      "title": "Fetching Profile Details"
+    },
+    "location": "Location",
+    "name": "Name",
+    "publicGists": "Public Gists",
+    "publicRepos": "Public Repos",
+    "profile": "{{NAME}}'s Profile"
+
+  }
+
+}
