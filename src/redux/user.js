@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {fetchUsersApi, getDetailsApi} from "api";
 
 export const userSlice = createSlice({
     name: "user",
@@ -7,10 +8,12 @@ export const userSlice = createSlice({
             total_count: 0,
             items: [],
         },
-        users_per_page: 5,
+        userDetails: {},
+        perPage: 20,
         isLoading: false,
         page: 1,
-        search_name: "",
+        searchText: "",
+        searchTerm: "",
     },
     reducers: {
         setIsLoading: (state, action) => {
@@ -20,16 +23,64 @@ export const userSlice = createSlice({
             state.page = action.payload.page;
         },
         setUsersPerPage: (state, action) => {
-            state.users_per_page = action.payload.users_per_page;
+            state.perPage = action.payload.perPage;
         },
         setUserResults: (state, action) => {
             state.users = action.payload.users;
         },
-        setSearchName: (state, action) => {
-            state.search_name = action.payload.search_name;
+        setSearchText: (state, action) => {
+            state.searchText = action.payload.searchText;
         },
+        setSearchTerm: (state, action) => {
+            state.searchTerm = action.payload.searchTerm;
+        },
+        setUserDetails: (state, action) => {
+            state.userDetails = action.payload
+        }
     },
 });
+
+export const fetchUsers = (payload) =>  (dispatch) => {
+    try {
+        const { searchText, searchTerm, perPage, page } = payload
+
+        dispatch(setIsLoading(true))
+        dispatch(setSearchText({searchText}))
+        dispatch(setSearchTerm({searchTerm}))
+        const orgQuery = searchTerm === 'orgs'
+        fetchUsersApi({perPage, page, orgQuery, searchText})
+            .then(results => {
+                dispatch(setIsLoading(false))
+                dispatch(setUserResults({users: {...results}}))
+            }).catch(() => {
+            dispatch(setIsLoading(false))
+        })
+
+    } catch (err) {
+        dispatch(setIsLoading(false))
+        throw new Error(err);
+    }
+};
+
+export const getDetails = username => async dispatch => {
+    try {
+        dispatch(setIsLoading(true))
+        getDetailsApi({ username })
+            .then((results) => {
+                dispatch(setIsLoading(false))
+                dispatch(setUserDetails(results))
+        }).catch(() => {
+            dispatch(setIsLoading(false))
+        })
+
+    } catch (err) {
+        dispatch(setIsLoading(false))
+        throw new Error(err);
+    }
+
+}
+
+
 
 // Action creators are generated for each case reducer function
 export const {
@@ -37,7 +88,9 @@ export const {
     setIsLoading,
     setPaginationPage,
     setUsersPerPage,
-    setSearchName,
+    setSearchText,
+    setSearchTerm,
+    setUserDetails
 } = userSlice.actions;
 
 export default userSlice.reducer;
