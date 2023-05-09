@@ -4,7 +4,7 @@ import { AiOutlineGithub } from "react-icons/ai";
 import {useTranslation} from "react-i18next";
 
 import Button from "components/Button";
-import Search from "views/Search";
+import Search from "pages/Search";
 import {StyledHeader, HeaderWrapper, StyledLogo} from "./styled";
 
 const icon = <FiMoon size={18} />;
@@ -16,7 +16,7 @@ const Header = ({ theme, toggleTheme}) => {
     return (
         <StyledHeader>
             <HeaderWrapper>
-                <StyledLogo>
+                <StyledLogo aria-label={t('home.logo')}>
                     <AiOutlineGithub size={40} />
                 </StyledLogo>
                 <Search />

@@ -13,11 +13,12 @@
     }
   },
   "home": {
-    "noData": "No {{USER_OR_ORG}} found",
-    "title": "Welcome to the Front-End Case Study Home Page",
     "loader": {
       "title": "Fetching {{USER_OR_ORG}}"
-    }
+    },
+    "logo": "Logo",
+    "noData": "No {{USER_OR_ORG}} found",
+    "title": "Welcome to the Front-End Case Study Home Page"
   },
   "detail": {
     "backBtn": "Back",
