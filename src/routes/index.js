@@ -1,8 +1,8 @@
 import {useLocation, useNavigate, useRoutes} from "react-router-dom";
 import {useEffect} from "react";
-import Home from "views/Home";
+import Home from "pages/Home";
 
-import DetailPage from "views/DetailPage";
+import DetailPage from "pages/DetailPage";
 
 const Routes = ({theme, toggleTheme}) => {
     const location = useLocation()

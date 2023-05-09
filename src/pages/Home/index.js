@@ -6,8 +6,8 @@ import DocumentTitle from "react-document-title"
 
 import UserGroupCard from "components/UserGroupCard";
 import Loading from "components/Loading";
-import Header from "views/Header";
-import Footer from "views/Footer";
+import Header from "pages/Header";
+import Footer from "pages/Footer";
 import {
     StyledLoadingContainer,
     StyledNoContentCard,
